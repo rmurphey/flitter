@@ -2,12 +2,13 @@ words:
   - prostat
 fields:
   - Title
-decision: exclude
-reason: preclinical
+decision: include
+reason: prostate in title
 
 words:
-  - prostat
+  - preclinical
+  - pre-clinical
 fields:
   - Title
 decision: exclude
-reason: preclinical
+reason: preclinical not in title

@@ -1,19 +1,26 @@
 module Flitter
   class Record
-    attr_reader :rejected, :reason
+    attr_reader :rejected, :reason,
+      :id, :title, :abstract, :type, :keywords,
+      :accept_reasons, :reject_reasons
 
     def initialize(row)
       @row = row
+
+      @id = row['Ref ID']
+      @type = row['Type']
+      @title = row['Title']
+      @abstract = row['Abstract']
+      @keywords = row['Keywords']
+
       @rejected = false
-      @reason = []
+
+      @reject_reasons = []
+      @accept_reasons = []
     end
 
     def run_tests(tests)
-      tests.each { |t| run_test(t) }
-    end
-
-    def rejected
-      @rejected
+      tests.each { |t| self.run_test(t) }
     end
 
     def run_test(test)
@@ -27,31 +34,46 @@ module Flitter
         end
       end
 
-      if match and test.decision === 'exclude'
-        self.send(:reject, test.reason)
+      if test.decision === 'exclude'
+        if match
+          self.send(:reject, test.reason)
+        else
+          self.send(:accept, test.reason)
+        end
       end
 
-      if not match and test.decision === 'include'
-        self.send(:reject, test.reason)
+      if test.decision === 'include'
+        if match
+          self.send(:accept, test.reason)
+        else
+          self.send(:reject, test.reason)
+        end
       end
     end
 
     def test(field, word)
-      @row[field].match(word)
+      @row[field].downcase.match(word.downcase)
     end
 
-    def id
-      @row['Ref ID']
+    def row
+      @row.push(@accept_reasons)
+      @row.push(@reject_reasons)
+
+      if rejected
+        @row.push('rejected')
+      end
+
+      @row.to_csv
     end
 
     private
-      def accept
-        puts "Accepted #{@row['Ref ID']}" unless @rejected
+      def accept(reason = 'unspecified')
+        @accept_reasons << reason
       end
 
       def reject(reason = 'unspecified')
         @rejected = true
-        @reason << reason
+        @reject_reasons << reason
       end
   end
 end

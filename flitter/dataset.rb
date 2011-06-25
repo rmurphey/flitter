@@ -30,6 +30,7 @@ module Flitter
       "unk11",
       "unk12",
       "unk13",
+      "unk14",
       "Abstract"
     ]
 
@@ -48,12 +49,22 @@ module Flitter
     end
 
     def report
-      @records.each do |r|
-        if r.rejected
-          puts "Rejected #{r.id}: #{r.reason}"
-        else
-          puts "Accepted #{r.id}"
+      File.open("report.csv", "w") do |file|
+
+        file.write(HEADERS.to_csv)
+
+        @records.each do |r|
+          if r.rejected
+            puts "Rejected #{r.id}: #{r.reject_reasons}"
+          else
+            puts "Accepted #{r.id}: #{r.accept_reasons}"
+          end
+
+          file.write(r.row)
         end
+
+        file.close
+
       end
     end
   end
