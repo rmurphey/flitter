@@ -4,3 +4,10 @@ fields:
   - Title
 decision: exclude
 reason: preclinical
+
+words:
+  - prostat
+fields:
+  - Title
+decision: exclude
+reason: preclinical

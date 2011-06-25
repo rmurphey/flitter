@@ -8,8 +8,13 @@ module Flitter
       @tests = []
 
       Dir.entries(test_dir).each do |file|
-        file = File.join(test_dir, file)
-        @tests << Flitter::Test.new(file) unless File.directory?(file)
+        if not File.directory?(file)
+          file = File.read(File.join(test_dir, file))
+
+          file.split("\n\n").each do |yaml|
+            @tests << Flitter::Test.new(yaml)
+          end
+        end
       end
     end
 
