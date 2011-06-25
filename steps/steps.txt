@@ -1,0 +1,5 @@
+# Melissa Juniper
+When I am viewing a record
+And I see "Melissa" in the "First" field
+And I do not see "Juniper" in the "Last" field
+Then discard the record
