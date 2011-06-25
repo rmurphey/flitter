@@ -35,6 +35,11 @@ module Flitter
 
         file.close
 
+        accepted = @records.count{ |r| !r.rejected }
+        rejected = @records.count - accepted
+
+        puts "#{accepted} accepted / #{rejected} rejected / #{@records.length} total"
+
       end
     end
   end
