@@ -30,7 +30,7 @@ module Flitter
             puts "Accepted #{r.id}: #{r.accept_reasons}"
           end
 
-          file.write(r.row)
+          file.write(r.to_csv)
         end
 
         file.close

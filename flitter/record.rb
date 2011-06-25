@@ -1,8 +1,6 @@
 module Flitter
   class Record
-    attr_reader :rejected, :reason,
-      :id, :title, :abstract, :type, :keywords,
-      :accept_reasons, :reject_reasons
+    attr_reader :rejected, :accept_reasons, :reject_reasons, :id
 
     def initialize(row)
       @row = row
@@ -15,42 +13,10 @@ module Flitter
     end
 
     def run_tests(tests)
-      tests.each { |t| self.run_test(t) }
+      tests.each { |t| self.send(:run_test, t) }
     end
 
-    def run_test(test)
-      match = false
-
-      test.words.each do |word|
-        test.fields.each do |field|
-          if not self.test(field, word).nil?
-            match = true
-          end
-        end
-      end
-
-      if test.decision === 'exclude'
-        if match
-          self.send(:reject, test.reason)
-        else
-          self.send(:accept, test.reason)
-        end
-      end
-
-      if test.decision === 'include'
-        if match
-          self.send(:accept, test.reason)
-        else
-          self.send(:reject, test.reason)
-        end
-      end
-    end
-
-    def test(field, word)
-      @row[field].downcase.match(word.downcase)
-    end
-
-    def row
+    def to_csv
       @row.push(@accept_reasons)
       @row.push(@reject_reasons)
 
@@ -62,6 +28,38 @@ module Flitter
     end
 
     private
+      def run_test(test)
+        match = false
+
+        test.words.each do |word|
+          test.fields.each do |field|
+            if not self.send(:test, field, word).nil?
+              match = true
+            end
+          end
+        end
+
+        if test.decision === 'exclude'
+          if match
+            self.send(:reject, test.reason)
+          else
+            self.send(:accept, test.reason)
+          end
+        end
+
+        if test.decision === 'include'
+          if match
+            self.send(:accept, test.reason)
+          else
+            self.send(:reject, test.reason)
+          end
+        end
+      end
+
+      def test(field, word)
+        @row[field].downcase.match(word.downcase)
+      end
+
       def accept(reason = 'unspecified')
         @accept_reasons << reason
       end
