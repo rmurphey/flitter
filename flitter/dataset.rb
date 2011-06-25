@@ -3,39 +3,9 @@ require_relative 'record'
 
 module Flitter
   class DataSet
-    HEADERS = [
-      "Ref Type",
-      "Ref ID",
-      "Title",
-      "Authors",
-      "Pub Date",
-      "Notes",
-      "Keywords",
-      "Reprint",
-      "Start Page",
-      "End Page",
-      "Journal",
-      "unk1",
-      "unk2",
-      "Volume",
-      "unk3",
-      "unk4",
-      "Issue",
-      "unk5",
-      "unk6",
-      "unk7",
-      "unk8",
-      "unk9",
-      "unk10",
-      "unk11",
-      "unk12",
-      "unk13",
-      "unk14",
-      "Abstract"
-    ]
-
-    def initialize(data_file)
-      @records = CSV.read(data_file, :headers => HEADERS).map do |row|
+    def initialize(data_file, header_file)
+      @headers = File.read(header_file).split("\n")
+      @records = CSV.read(data_file, :headers => @headers).map do |row|
         Flitter::Record.new(row)
       end
     end
@@ -51,7 +21,7 @@ module Flitter
     def report
       File.open("report.csv", "w") do |file|
 
-        file.write(HEADERS.to_csv)
+        file.write(@headers.to_csv)
 
         @records.each do |r|
           if r.rejected

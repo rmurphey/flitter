@@ -6,12 +6,7 @@ module Flitter
 
     def initialize(row)
       @row = row
-
-      @id = row['Ref ID']
-      @type = row['Type']
-      @title = row['Title']
-      @abstract = row['Abstract']
-      @keywords = row['Keywords']
+      @id = row[1]
 
       @rejected = false
 
