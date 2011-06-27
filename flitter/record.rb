@@ -44,11 +44,7 @@ module Flitter
         end
 
         scores.keys.each do |k|
-          puts "scores for #{k}: #{scores[k]}"
-
-          invert = !k.match(/^NOT /).nil?
-
-          if invert
+          if !k.match(/^NOT /).nil?
             if scores[k] == 0
               reasons_to_act += 1
             end
@@ -59,10 +55,12 @@ module Flitter
           end
         end
 
-        if test.mark and reasons_to_act > 0
-          self.send(:mark, test)
-        elsif reasons_to_act > 0
-          self.send(:reject, test)
+        if reasons_to_act > 0
+          if test.mark
+            self.send(:mark, test)
+          else
+            self.send(:reject, test)
+          end
         else
           self.send(:accept, test)
         end
@@ -73,13 +71,9 @@ module Flitter
       end
 
       def accept(test)
-        puts "#{@id} was not rejected for #{test.reason}"
-        # @accept_reasons << reason
       end
 
       def reject(test)
-        puts "#{@id} rejected for #{test.reason}"
-
         if not @rejected
           @rejected = true
           @reject_reason = test.reason
