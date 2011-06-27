@@ -119,12 +119,13 @@ fields:
   - Title
 reason: Lifestyle in Title
 
-words:
-  - this review, NOT systematic
-fields:
-  - Abstract
-reason: Review in Abstract
-
+# words:
+#   - this review
+#   - NOT systematic
+# fields:
+#   - Abstract
+# reason: Review in Abstract
+#
 words:
   - phase III
   - phase 3
