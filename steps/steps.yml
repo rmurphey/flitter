@@ -1,14 +1,179 @@
 words:
-  - prostat
+  - NOT prostat
 fields:
   - Title
-decision: include
-reason: prostate in title
+  - Abstract
+reason: No Prostate in Title or Abstract
+
+words:
+  - nonmetasta
+  - non-metasta
+fields:
+  - Title
+  - Abstract
+reason: No Mets in Title or Abstract
+
+words:
+  - child
+  - adolesc
+  - juvenil
+fields:
+  - Title
+reason: Children/Adolescents in Title
+
+words:
+  - pilot study
+  - pilot trial
+fields:
+  - Title
+reason: Pilot in Title
 
 words:
   - preclinical
   - pre-clinical
+  - pre clinical
+  - mice
+  - mouse
+  - rodent
 fields:
   - Title
-decision: exclude
-reason: preclinical not in title
+  - Abstract
+mark: For review
+reason: Preclinical in Title or Abstract
+
+words:
+  - phase I
+  - phase 1
+fields:
+  - Title
+reason: Phase I/1 in Title
+
+words:
+  - phase II
+  - phase 2
+fields:
+  - Title
+mark: For review
+reason: Phase II/2 in Title
+
+words:
+  - prognost
+fields:
+  - Title
+mark: For review
+reason: Prognost in Title
+
+words:
+  - retrospective
+fields:
+  - Title
+reason: Retrospective in Title
+
+words:
+  - case report
+  - case series
+fields:
+  - Title
+reason: Case Report/Series in Title
+
+words:
+  - commentary
+  - letter
+fields:
+  - Title
+reason: Commentary/letter in Title
+
+words:
+  - consensus
+fields:
+  - Title
+reason: Consensus in Title
+
+words:
+  - guide-line
+  - recommendation
+fields:
+  - Title
+mark: For review
+reason: Guideline in Title
+
+words:
+  - cost-effective
+  - cost effective
+fields:
+  - Title
+reason: Cost-effectiveness in Title
+
+words:
+  - tomography
+  - MRI
+  - scintigraphy
+  - imaging
+fields:
+  - Title
+reason: Imaging in Title
+
+words:
+  - lifestyle
+fields:
+  - Title
+reason: Lifestyle in Title
+
+words:
+  - this review, NOT systematic
+fields:
+  - Abstract
+reason: Review in Abstract
+
+words:
+  - phase III
+  - phase 3
+fields:
+  - Title
+mark: High interest
+reason: Phase III/3 in Title
+
+words:
+  - phase IV
+  - phase 4
+fields:
+  - Title
+mark: High interest
+reason: Phase IV/4 in Title
+
+words:
+  - observational
+fields:
+  - Title
+mark: High interest
+reason: Observational in Title
+
+words:
+  - randomis
+  - randomiz
+  - placebo
+  - control
+  - versus
+  - dose-finding
+  - dose finding
+fields:
+  - Title
+mark: For review
+reason: RCT in Title
+
+words:
+  - systematic
+fields:
+  - Title
+mark: High interest
+reason: Systematic in Title
+
+words:
+  - meta-analysis
+  - meta-analyses
+  - meta-analysis
+  - meta analyses
+fields:
+  - Title
+mark: High interest
+reason: Meta-analysis in Title

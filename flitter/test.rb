@@ -1,14 +1,19 @@
 module Flitter
   class Test
-    attr_reader :words, :fields, :decision, :reason
+    attr_reader :words, :fields, :decision, :reason, :mark, :matches
 
     def initialize(yaml)
+      @matches = 0
+
       @test = YAML::load(yaml)
       @words = @test['words']
       @fields = @test['fields']
-      @decision = @test['decision']
       @reason = @test['reason']
+      @mark = @test['mark']
     end
 
+    def log_match
+      @matches = matches + 1;
+    end
   end
 end

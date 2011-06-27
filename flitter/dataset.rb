@@ -19,27 +19,29 @@ module Flitter
     end
 
     def report
-      File.open("report.csv", "w") do |file|
+      accepted = @records.count{ |r| !r.rejected }
+      rejected = @records.count - accepted
+      sorted_tests = @tests.sort { |x, y| y.matches <=> x.matches }
 
+      File.open("report.csv", "w") do |file|
         file.write(@headers.to_csv)
 
-        @records.each do |r|
-          if r.rejected
-            puts "Rejected #{r.id}: #{r.reject_reasons}"
-          else
-            puts "Accepted #{r.id}: #{r.accept_reasons}"
-          end
+        @records.each { |r| file.write(r.to_csv) }
+        @records.each { |r| puts "#{r.id} #{r.reject_reason}" }
 
-          file.write(r.to_csv)
-        end
-
-        file.close
-
-        accepted = @records.count{ |r| !r.rejected }
-        rejected = @records.count - accepted
+        puts "\n"
 
         puts "#{accepted} accepted / #{rejected} rejected / #{@records.length} total"
 
+        puts "\n"
+        file.write("\n")
+
+        sorted_tests.each do |test|
+          puts "#{test.matches} #{test.reason}"
+          file.write([ test.matches, test.reason ].to_csv)
+        end
+
+        file.close
       end
     end
   end
